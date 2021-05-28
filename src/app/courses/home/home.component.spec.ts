@@ -19,7 +19,9 @@ describe('HomeComponent', () => {
   let fixture: ComponentFixture<HomeComponent>;
   let component:HomeComponent;
   let element: DebugElement;
-  
+  let coursesService:any;
+
+  const beginnerCourses = setupCourses().filter(course => course.category == 'BEGINNER');
   const coursesServiceSpy = jasmine.createSpyObj('CoursesService', ['findAllCourses']);
 
   beforeEach(waitForAsync(() => {
@@ -32,13 +34,14 @@ describe('HomeComponent', () => {
       providers: [
         {
           provide: CoursesService,
-          userValue: coursesServiceSpy
+          useValue: coursesServiceSpy
         }
       ]
     }).compileComponents().then(() => {
       fixture = TestBed.createComponent(HomeComponent);
       component = fixture.componentInstance;
       element = fixture.debugElement;
+      coursesService = TestBed.get(CoursesService);
     });
   }));
 
@@ -48,7 +51,10 @@ describe('HomeComponent', () => {
 
 
   it("should display only beginner courses", () => {
-    pending();
+    coursesService.findAllCourses.and.returnValue(of(beginnerCourses));
+    fixture.detectChanges();
+    const tabs = element.queryAll(By.css(".mat-tab-label"));
+    expect(tabs.length).toBe(1, "Unexpected number of tabs found");
   });
 
 
