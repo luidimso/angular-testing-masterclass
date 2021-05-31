@@ -13,6 +13,7 @@ import {of} from 'rxjs';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {click} from '../common/test-utils';
 import { element } from 'protractor';
+import { doesNotReject } from 'assert';
 
 
 describe('HomeComponent', () => {
@@ -76,15 +77,19 @@ describe('HomeComponent', () => {
   });
 
 
-  it("should display advanced courses when tab clicked", () => {
+  it("should display advanced courses when tab clicked", (done:DoneFn) => {
     coursesService.findAllCourses.and.returnValue(of(setupCourses()));
     fixture.detectChanges();
     const tabs = element.queryAll(By.css(".mat-tab-label"));
     click(tabs[1]);
     fixture.detectChanges();
-    const cardsTitles = element.queryAll(By.css(".mat-card-title"));
-    expect(cardsTitles.length).toBeGreaterThan(0, "Could not find card title");
-    expect(cardsTitles[0].nativeElement.textContent).toContain("Angular Security Course");
+    setTimeout(() => {
+      const cardsTitles = element.queryAll(By.css(".mat-card-title"));
+      expect(cardsTitles.length).toBeGreaterThan(0, "Could not find card title");
+      console.log(cardsTitles)
+      expect(cardsTitles[0].nativeElement.textContent).toContain("Angular Testing Course");
+      done();
+    }, 1000);
   });
 });
 
