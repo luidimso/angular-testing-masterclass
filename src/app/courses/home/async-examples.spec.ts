@@ -19,4 +19,13 @@ describe("Async Testing Examples", () => {
         flush();
         expect(test).toBeTruthy();
     }));
+
+
+    it("Asynchronous test example with Promise", () => {
+        let test = false;
+        Promise.resolve().then(() => {
+            test = true;
+        });
+        expect(test).toBeTruthy();
+    });
 });
