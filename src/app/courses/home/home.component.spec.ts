@@ -88,6 +88,20 @@ describe('HomeComponent', () => {
     expect(cardsTitles.length).toBeGreaterThan(0, "Could not find card title");
     expect(cardsTitles[0].nativeElement.textContent).toContain("Angular Testing Course");
   }));
+
+
+  it("should display advanced courses when tab clicked using waitForAsync()", waitForAsync(() => {
+    coursesService.findAllCourses.and.returnValue(of(setupCourses()));
+    fixture.detectChanges();
+    const tabs = element.queryAll(By.css(".mat-tab-label"));
+    click(tabs[1]);
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      const cardsTitles = element.queryAll(By.css(".mat-card-title"));
+      expect(cardsTitles.length).toBeGreaterThan(0, "Could not find card title");
+      expect(cardsTitles[0].nativeElement.textContent).toContain("Angular Testing Course");
+    });
+  }));
 });
 
 
