@@ -86,7 +86,6 @@ describe('HomeComponent', () => {
     setTimeout(() => {
       const cardsTitles = element.queryAll(By.css(".mat-card-title"));
       expect(cardsTitles.length).toBeGreaterThan(0, "Could not find card title");
-      console.log(cardsTitles)
       expect(cardsTitles[0].nativeElement.textContent).toContain("Angular Testing Course");
       done();
     }, 1000);
